@@ -1,0 +1,28 @@
+name: CI
+on: [push]
+env:
+  APP_ENV: ci
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          echo "installing..."
+          mkdir -p build
+          echo "dep-cache" > build/deps.txt
+          echo "BUILD_ID=build-$(date +%s)" >> "$GITHUB_ENV"
+      - name: Build
+        run: |
+          echo "building with BUILD_ID=$BUILD_ID"
+          cat build/deps.txt
+          echo "artifact for $BUILD_ID" > build/app.txt
+      - name: Test
+        env:
+          EXPECTED_GREETING: "hello, world"
+        run: |
+          echo "running tests"
+          ./test.sh
+      - name: Deploy (dry run)
+        run: echo "would deploy $(cat build/app.txt)"

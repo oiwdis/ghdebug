@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ghdebug"
+version = "0.1.0"
+description = "Debug GitHub Actions locally: pause on the failing step, get a shell in the job container, rerun from any step. Built on nektos/act."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["PyYAML>=5.4"]
+license = {text = "MIT"}
+
+[project.scripts]
+ghdebug = "ghdebug.cli:main"
