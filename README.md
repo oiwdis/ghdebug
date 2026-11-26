@@ -2,6 +2,10 @@
 
 **Debug GitHub Actions on your machine. When a step fails, the job pauses and you get a shell inside the job container, right at the failure. Fix it, retry the step, keep going.**
 
+[Website](https://ghdebug.pages.dev) · [MIT license](LICENSE)
+
+![A recorded ghdebug session: a test fails, a shell opens in the job container, the bug is fixed, and the workflow goes green.](docs/demo.gif)
+
 No more `git commit -m "fix ci" && git push`, wait 4 minutes, repeat.
 
 ghdebug is a thin wrapper around [nektos/act](https://github.com/nektos/act). act runs your workflow in Docker; ghdebug adds the debugging loop:
@@ -40,7 +44,7 @@ You need **Docker** (running), **act** ≥ 0.2.60, and **Python 3.9+**.
 
 ```bash
 # act: https://nektosact.com/installation/  (e.g. `brew install act`)
-pipx install git+https://github.com/<you>/ghdebug   # or: pip install .  from a clone
+pipx install git+https://github.com/oiwdis/ghdebug.git   # or: pip install .  from a clone
 ghdebug --version
 ```
 

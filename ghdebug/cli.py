@@ -238,6 +238,8 @@ def snapshot_steps(cid):
 # ------------------------------------------------------------------ debug shell
 def open_shell(cid, step, failed=False):
     rc = f"""[ -f ~/.bashrc ] && . ~/.bashrc
+bind 'set enable-bracketed-paste off' 2>/dev/null
+printf '\033[?2004l' 2>/dev/null
 . {STATE}/step-{step}.sh 2>/dev/null
 cd "$(cat {STATE}/step-{step}.pwd 2>/dev/null || echo .)"
 rerun() {{ F={STATE}/step-{step}.script; eval "$(cat {STATE}/step-{step}.runner)"; echo "[exit code: $?]"; }}
@@ -419,7 +421,7 @@ def _drive(proc, q, args, jobs):
             say("couldn't locate the paused container; failing the step", C_R)
             continue
         cname = docker("inspect", "-f", "{{.Name}}", cid).stdout.strip().lstrip("/")
-        say(f"container: {cname}")
+        say(f"container: {cname[:20]}…" if len(cname) > 24 else f"container: {cname}")
         action = "shell" if not args.no_shell else ask_action()
         while action == "shell":
             say(f"opening a shell in container {cid[:12]} ...")
